@@ -239,8 +239,18 @@ const errorTexts={
 function contact(){
   overlay.style.display="flex";
   overlayText.innerText=loadingTexts[currentLang].connect;
-  setTimeout(()=>overlayText.innerText=loadingTexts[currentLang].auth,1500);
-  setTimeout(()=>{ overlay.style.display="none"; showError(); },3200);
+
+  const firstDelay = 800 + Math.random()*1200;   // 0.8–2.0 сек
+  const totalDelay = 2200 + Math.random()*2500;  // 2.2–4.7 сек
+
+  setTimeout(()=>{
+    overlayText.innerText=loadingTexts[currentLang].auth;
+  }, firstDelay);
+
+  setTimeout(()=>{
+    overlay.style.display="none";
+    showError();
+  }, totalDelay);
 }
 
 function showError(){
