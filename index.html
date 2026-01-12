@@ -2,136 +2,57 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>הזמנה רשמית | כדורגל נתניה</title>
+<title>מידע נוסף | כדורגל נתניה</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-html[dir="rtl"] body {
-  direction: rtl;
-  unicode-bidi: isolate;
+body {
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#eef2f6;
 }
-p, h1, h2, h3, .notice {
-  direction: rtl;
-  unicode-bidi: plaintext;
-}
-body { margin:0; font-family:Arial, sans-serif; background:#e9eef3; }
 
 header {
-  background:#0b2a5b; color:#fff; padding:15px 25px;
-  display:flex; justify-content:space-between; align-items:center;
-}
-
-.brand { display:flex; align-items:center; gap:10px; font-size:20px; font-weight:bold; }
-.language select { padding:4px; font-size:13px; color:#000; }
-
-.main {
-  max-width:800px; margin:50px auto; background:#fff; padding:40px;
-  box-shadow:0 0 20px rgba(0,0,0,.15);
-}
-
-h1 { color:#0b2a5b; }
-
-.buttons { margin-top:30px; display:flex; gap:15px; flex-wrap:wrap; }
-
-button {
-  padding:12px 20px; font-size:15px;
-  border:0; border-radius:4px; cursor:pointer;
-}
-
-.confirm { background:#0b2a5b; color:#fff; }
-.info { background:#e0e0e0; }
-.contact { background:#f5f5f5; }
-
-.notice {
-  margin-top:25px;
-  font-size:13px;
-  color:#555;
-  border-top:1px solid #eee;
-  padding-top:15px;
-}
-
-.info-icon {
-  display:inline-flex; align-items:center; justify-content:center;
-  width:18px; height:18px;
-  border:1.5px solid #333;
-  border-radius:50%;
-  font-size:12px;
-  font-weight:bold;
-  margin-inline-end:6px;
-}
-
-#overlay {
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  z-index:9999;
-}
-
-.spinner {
-  width:48px; height:48px;
-  border:5px solid #ddd;
-  border-top-color:#0b2a5b;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-  margin-bottom:12px;
-}
-
-@keyframes spin { to { transform:rotate(360deg); } }
-
-#errorModal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  align-items:center;
-  justify-content:center;
-  z-index:10000;
-}
-
-.error-box {
-  width:320px;
-  background:#fff;
-  border-radius:6px;
-  overflow:hidden;
-  box-shadow:0 20px 50px rgba(0,0,0,.35);
-}
-
-.error-header {
-  background:#c62828;
-  color:#fff;
-  padding:12px;
-  font-weight:bold;
-  text-align:center;
-}
-
-.error-body {
-  padding:20px;
-  font-size:14px;
-  text-align:center;
-}
-
-.error-footer {
-  padding:12px;
-  text-align:center;
-  border-top:1px solid #eee;
-}
-
-.error-footer button {
-  padding:6px 22px;
-  border:0;
-  border-radius:4px;
   background:#0b2a5b;
   color:#fff;
+  padding:15px 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
+
+.brand { font-size:20px; font-weight:bold; }
+
+.language select {
+  padding:4px;
+  font-size:13px;
+}
+
+.container {
+  max-width:900px;
+  margin:40px auto;
+  background:#fff;
+  padding:40px;
+  line-height:1.9;
+}
+
+.back {
+  display:inline-flex;
+  gap:8px;
+  margin-bottom:20px;
+  color:#0b2a5b;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+h1,h2 { color:#0b2a5b; }
 
 .footer {
   text-align:center;
   font-size:13px;
   color:#666;
-  margin:30px 0 15px;
+  padding:20px;
 }
 </style>
 </head>
@@ -141,7 +62,7 @@ button {
 <header>
   <div class="brand">⚽ כדורגל נתניה</div>
   <div class="language">
-    <select id="langSelect" onchange="changeLang(this.value)">
+    <select id="langSelect">
       <option value="he">עברית</option>
       <option value="en">English</option>
       <option value="fr">Français</option>
@@ -150,64 +71,96 @@ button {
   </div>
 </header>
 
-<div class="main" id="content">
-  <h1>הזמנה לאירוע כדורגל מיוחד</h1>
-  <p>
-    נבחרת להשתתף באירוע ייחודי של כדורגל נתניה.
-    מספר המקומות מוגבל וההשתתפות מותנית באישור מוקדם.
-  </p>
+<div class="container">
+<a class="back" id="backBtn">← חזרה להזמנה</a>
 
-  <div class="buttons">
-    <button class="confirm" onclick="startLoudLoop()">אישור השתתפות</button>
-    <button class="info" onclick="location.href='info.html'">
-      <span class="info-icon">i</span>מידע נוסף
-    </button>
-    <button class="contact" onclick="contact()">צור קשר</button>
-  </div>
+<h1 id="title">תוכנית ההזמנות המיוחדות – מידע מלא</h1>
 
-  <div class="notice">
-    לפני אישור ההשתתפות, מומלץ לקרוא בעיון את המידע הנוסף וההנחיות הרשמיות.
-  </div>
+<p id="p1">
+כדורגל נתניה מפעילה תוכנית הזמנות ייחודית לאורך השנה.
+</p>
+
+<h2 id="h2">מה כולל האירוע?</h2>
+<ul id="list">
+  <li>משחק ייעודי</li>
+  <li>צוות מקצועי</li>
+  <li>ליווי לוגיסטי</li>
+</ul>
 </div>
 
-<footer class="footer">
-  <span id="footerText">© 2026 ארגון הכדורגל נתניה · כל הזכויות שמורות</span>
-</footer>
+<div class="footer" id="footer">
+© 2026 ארגון הכדורגל נתניה
+</div>
 
 <script>
-let currentLang = "he";
-
-const footerTexts = {
-  he:"© 2026 ארגון הכדורגל נתניה · כל הזכויות שמורות",
-  en:"© 2026 Netanya Football Organization · All rights reserved",
-  fr:"© 2026 Organisation de football de Netanya · Tous droits réservés",
-  ar:"© 2026 منظمة كرة القدم نتانيا · جميع الحقوق محفوظة"
+const text = {
+he:{
+title:"תוכנית ההזמנות המיוחדות – מידע מלא",
+p1:"כדורגל נתניה מפעילה תוכנית הזמנות ייחודית לאורך השנה.",
+h2:"מה כולל האירוע?",
+list:["משחק ייעודי","צוות מקצועי","ליווי לוגיסטי"],
+back:"← חזרה להזמנה",
+footer:"© 2026 ארגון הכדורגל נתניה",
+dir:"rtl"
+},
+en:{
+title:"Special Invitation Program – Full Information",
+p1:"Netanya Football operates a selective invitation program.",
+h2:"What does the event include?",
+list:["Dedicated match","Professional staff","Logistical support"],
+back:"← Back to invitation",
+footer:"© 2026 Netanya Football Organization",
+dir:"ltr"
+},
+fr:{
+title:"Programme d'invitation spéciale",
+p1:"Netanya Football organise un programme sélectif.",
+h2:"Contenu de l'événement",
+list:["Match dédié","Équipe professionnelle","Support logistique"],
+back:"← Retour à l'invitation",
+footer:"© 2026 Organisation de football de Netanya",
+dir:"ltr"
+},
+ar:{
+title:"برنامج الدعوة الخاصة",
+p1:"تنظم كرة قدم نتانيا برنامج دعوة انتقائي.",
+h2:"محتوى الحدث",
+list:["مباراة مخصصة","طاقم محترف","دعم لوجستي"],
+back:"← العودة إلى الدعوة",
+footer:"© 2026 منظمة كرة القدم نتانيا",
+dir:"rtl"
+}
 };
 
-function applyLang(l){
-  currentLang = l;
-  localStorage.setItem("siteLang", l);
+const select = document.getElementById("langSelect");
+const backBtn = document.getElementById("backBtn");
 
-  document.documentElement.lang = l;
-  document.documentElement.dir = (l==="he" || l==="ar") ? "rtl" : "ltr";
+backBtn.addEventListener("click", () => {
+  window.location.href = "index.html";
+});
 
-  footerText.innerText = footerTexts[l];
-  document.getElementById("langSelect").value = l;
+select.addEventListener("change", () => {
+  applyLang(select.value);
+});
+
+function applyLang(lang){
+  const t = text[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.dir;
+  title.innerText = t.title;
+  p1.innerText = t.p1;
+  h2.innerText = t.h2;
+  backBtn.innerText = t.back;
+  footer.innerText = t.footer;
+  list.innerHTML = "";
+  t.list.forEach(i=>{
+    const li=document.createElement("li");
+    li.innerText=i;
+    list.appendChild(li);
+  });
 }
 
-function changeLang(l){
-  if(l==="he"){
-    localStorage.setItem("siteLang","he");
-    location.reload();
-    return;
-  }
-  applyLang(l);
-}
-
-const savedLang = localStorage.getItem("siteLang");
-if(savedLang && savedLang !== "he"){
-  applyLang(savedLang);
-}
+applyLang("he");
 </script>
 
 </body>
