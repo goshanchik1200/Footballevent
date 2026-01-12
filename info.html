@@ -10,7 +10,6 @@ body {
   margin:0;
   font-family:Arial, sans-serif;
   background:#eef2f6;
-  color:#111;
 }
 
 header {
@@ -23,58 +22,37 @@ header {
 }
 
 .brand { font-size:20px; font-weight:bold; }
-.language select { padding:4px; font-size:13px; color:#000; }
+
+.language select {
+  padding:4px;
+  font-size:13px;
+}
 
 .container {
   max-width:900px;
   margin:40px auto;
   background:#fff;
   padding:40px;
-  box-shadow:0 0 20px rgba(0,0,0,.15);
   line-height:1.9;
 }
 
-h1,h2,h3 { color:#0b2a5b; }
-
 .back {
   display:inline-flex;
-  align-items:center;
   gap:8px;
   margin-bottom:20px;
   color:#0b2a5b;
+  font-weight:bold;
   cursor:pointer;
   text-decoration:none;
-  font-weight:bold;
 }
 
-.back span { font-size:18px; }
+h1,h2 { color:#0b2a5b; }
 
 .footer {
   text-align:center;
   font-size:13px;
   color:#666;
-  padding:25px;
-}
-
-/* RTL */
-html[dir="rtl"] body { direction: rtl; }
-html[dir="rtl"] p,
-html[dir="rtl"] h1,
-html[dir="rtl"] h2,
-html[dir="rtl"] h3,
-html[dir="rtl"] li {
-  direction: rtl;
-  unicode-bidi: plaintext;
-}
-
-/* LTR */
-html[dir="ltr"] body { direction: ltr; }
-html[dir="ltr"] p,
-html[dir="ltr"] h1,
-html[dir="ltr"] h2,
-html[dir="ltr"] h3,
-html[dir="ltr"] li {
-  direction: ltr;
+  padding:20px;
 }
 </style>
 </head>
@@ -84,7 +62,7 @@ html[dir="ltr"] li {
 <header>
   <div class="brand">⚽ כדורגל נתניה</div>
   <div class="language">
-    <select id="langSelect" onchange="changeLang(this.value)">
+    <select id="langSelect">
       <option value="he">עברית</option>
       <option value="en">English</option>
       <option value="fr">Français</option>
@@ -93,110 +71,96 @@ html[dir="ltr"] li {
   </div>
 </header>
 
-<div class="container" id="content">
-<a class="back" onclick="goBack()"><span>←</span> חזרה להזמנה</a>
+<div class="container">
+<a class="back" id="backBtn">← חזרה להזמנה</a>
 
-<h1>תוכנית ההזמנות המיוחדות – מידע מלא</h1>
+<h1 id="title">תוכנית ההזמנות המיוחדות – מידע מלא</h1>
 
-<p>
-כדורגל נתניה מפעילה לאורך השנה תוכנית הזמנות ייחודית, שמטרתה לאתר משתתפים
-בעלי זיקה מוכחת לעולם הכדורגל ולהעניק להם הזדמנות לקחת חלק באירועים מיוחדים.
+<p id="p1">
+כדורגל נתניה מפעילה תוכנית הזמנות ייחודית לאורך השנה.
 </p>
 
-<h2>מה כולל האירוע?</h2>
-<ul>
-  <li>משחק ייעודי בפורמט מיוחד</li>
-  <li>נוכחות צוות מקצועי</li>
+<h2 id="h2">מה כולל האירוע?</h2>
+<ul id="list">
+  <li>משחק ייעודי</li>
+  <li>צוות מקצועי</li>
   <li>ליווי לוגיסטי</li>
 </ul>
-
-<h2>כיצד פועלת הבחירה?</h2>
-<p>
-הבחירה מתבצעת על בסיס נתונים ואינה פתוחה להרשמה ציבורית.
-</p>
 </div>
 
-<div class="footer" id="footerText">
-© 2026 ארגון הכדורגל נתניה · כל הזכויות שמורות
+<div class="footer" id="footer">
+© 2026 ארגון הכדורגל נתניה
 </div>
 
 <script>
-function goBack(){
-  window.location.href = "./index.html";
+const text = {
+he:{
+title:"תוכנית ההזמנות המיוחדות – מידע מלא",
+p1:"כדורגל נתניה מפעילה תוכנית הזמנות ייחודית לאורך השנה.",
+h2:"מה כולל האירוע?",
+list:["משחק ייעודי","צוות מקצועי","ליווי לוגיסטי"],
+back:"← חזרה להזמנה",
+footer:"© 2026 ארגון הכדורגל נתניה",
+dir:"rtl"
+},
+en:{
+title:"Special Invitation Program – Full Information",
+p1:"Netanya Football operates a selective invitation program.",
+h2:"What does the event include?",
+list:["Dedicated match","Professional staff","Logistical support"],
+back:"← Back to invitation",
+footer:"© 2026 Netanya Football Organization",
+dir:"ltr"
+},
+fr:{
+title:"Programme d'invitation spéciale",
+p1:"Netanya Football organise un programme sélectif.",
+h2:"Contenu de l'événement",
+list:["Match dédié","Équipe professionnelle","Support logistique"],
+back:"← Retour à l'invitation",
+footer:"© 2026 Organisation de football de Netanya",
+dir:"ltr"
+},
+ar:{
+title:"برنامج الدعوة الخاصة",
+p1:"تنظم كرة قدم نتانيا برنامج دعوة انتقائي.",
+h2:"محتوى الحدث",
+list:["مباراة مخصصة","طاقم محترف","دعم لوجستي"],
+back:"← العودة إلى الدعوة",
+footer:"© 2026 منظمة كرة القدم نتانيا",
+dir:"rtl"
 }
-
-const footerTexts = {
-  he:"© 2026 ארגון הכדורגל נתניה · כל הזכויות שמורות",
-  en:"© 2026 Netanya Football Organization · All rights reserved",
-  fr:"© 2026 Organisation de football de Netanya · Tous droits réservés",
-  ar:"© 2026 منظمة كرة القدم نتانيا · جميع الحقوق محفوظة"
 };
 
-const translations = {
-en: `
-<a class="back" onclick="goBack()"><span>←</span> Back to invitation</a>
-<h1>Special Invitation Program – Full Information</h1>
-<p>Netanya Football operates a selective invitation program throughout the year.</p>
-<h2>What does the event include?</h2>
-<ul>
-<li>Dedicated football match</li>
-<li>Professional staff presence</li>
-<li>Logistical coordination</li>
-</ul>
-<h2>Selection process</h2>
-<p>Selection is data-based and not open registration.</p>
-`,
-fr: `
-<a class="back" onclick="goBack()"><span>←</span> Retour à l'invitation</a>
-<h1>Programme d'invitation spéciale – Informations complètes</h1>
-<p>Netanya Football organise un programme d'invitation sélectif.</p>
-<h2>Contenu de l'événement</h2>
-<ul>
-<li>Match dédié</li>
-<li>Équipe professionnelle</li>
-<li>Coordination logistique</li>
-</ul>
-<h2>Sélection</h2>
-<p>Sélection automatique basée sur les données.</p>
-`,
-ar: `
-<a class="back" onclick="goBack()"><span>←</span> العودة إلى الدعوة</a>
-<h1>برنامج الدعوة الخاصة – معلومات كاملة</h1>
-<p>تنظم كرة قدم نتانيا برنامج دعوة انتقائي.</p>
-<h2>محتوى الحدث</h2>
-<ul>
-<li>مباراة مخصصة</li>
-<li>طاقم محترف</li>
-<li>تنسيق لوجستي</li>
-</ul>
-<h2>آلية الاختيار</h2>
-<p>اختيار قائم على البيانات وليس تسجيلًا مفتوحًا.</p>
-`
-};
+const select = document.getElementById("langSelect");
+const backBtn = document.getElementById("backBtn");
+
+backBtn.addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+
+select.addEventListener("change", () => {
+  applyLang(select.value);
+});
 
 function applyLang(lang){
+  const t = text[lang];
   document.documentElement.lang = lang;
-  document.documentElement.dir = (lang==="he" || lang==="ar") ? "rtl" : "ltr";
-  document.getElementById("langSelect").value = lang;
-  footerText.innerText = footerTexts[lang];
-  if(lang !== "he"){
-    content.innerHTML = translations[lang];
-  }
+  document.documentElement.dir = t.dir;
+  title.innerText = t.title;
+  p1.innerText = t.p1;
+  h2.innerText = t.h2;
+  backBtn.innerText = t.back;
+  footer.innerText = t.footer;
+  list.innerHTML = "";
+  t.list.forEach(i=>{
+    const li=document.createElement("li");
+    li.innerText=i;
+    list.appendChild(li);
+  });
 }
 
-function changeLang(lang){
-  localStorage.setItem("siteLang", lang);
-  if(lang === "he"){
-    location.reload();
-    return;
-  }
-  applyLang(lang);
-}
-
-const savedLang = localStorage.getItem("siteLang");
-if(savedLang && savedLang !== "he"){
-  applyLang(savedLang);
-}
+applyLang("he");
 </script>
 
 </body>
