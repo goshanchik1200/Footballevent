@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-/* ===== BASE ===== */
 body {
   margin:0;
   font-family:Arial, sans-serif;
@@ -57,7 +56,7 @@ h1,h2,h3 { color:#0b2a5b; }
   padding:25px;
 }
 
-/* ===== RTL ===== */
+/* RTL */
 html[dir="rtl"] body { direction: rtl; }
 html[dir="rtl"] p,
 html[dir="rtl"] h1,
@@ -68,7 +67,7 @@ html[dir="rtl"] li {
   unicode-bidi: plaintext;
 }
 
-/* ===== LTR ===== */
+/* LTR */
 html[dir="ltr"] body { direction: ltr; }
 html[dir="ltr"] p,
 html[dir="ltr"] h1,
@@ -76,7 +75,6 @@ html[dir="ltr"] h2,
 html[dir="ltr"] h3,
 html[dir="ltr"] li {
   direction: ltr;
-  unicode-bidi: normal;
 }
 </style>
 </head>
@@ -86,7 +84,7 @@ html[dir="ltr"] li {
 <header>
   <div class="brand">⚽ כדורגל נתניה</div>
   <div class="language">
-    <select onchange="changeLang(this.value)">
+    <select id="langSelect" onchange="changeLang(this.value)">
       <option value="he">עברית</option>
       <option value="en">English</option>
       <option value="fr">Français</option>
@@ -96,100 +94,67 @@ html[dir="ltr"] li {
 </header>
 
 <div class="container" id="content">
-
 <a class="back" onclick="goBack()"><span>←</span> חזרה להזמנה</a>
 
 <h1>תוכנית ההזמנות המיוחדות – מידע מלא</h1>
 
 <p>
 כדורגל נתניה מפעילה לאורך השנה תוכנית הזמנות ייחודית, שמטרתה לאתר משתתפים
-בעלי זיקה מוכחת לעולם הכדורגל ולהעניק להם הזדמנות לקחת חלק באירועים מיוחדים,
-שאינם פתוחים לציבור הרחב.
-</p>
-
-<h2>רקע כללי על היוזמה</h2>
-<p>
-היוזמה נולדה מתוך רצון לחזק את הקשר בין הקהילה, השחקנים והמערכת המקצועית,
-ולאפשר חוויות עומק למשתתפים שנמצאו מתאימים על פי קריטריונים מוגדרים מראש.
+בעלי זיקה מוכחת לעולם הכדורגל ולהעניק להם הזדמנות לקחת חלק באירועים מיוחדים.
 </p>
 
 <h2>מה כולל האירוע?</h2>
 <ul>
-  <li>משחק כדורגל ייעודי בפורמט מיוחד</li>
-  <li>נוכחות גורמים מקצועיים ואנשי צוות</li>
-  <li>תיאום מוקדם וליווי לוגיסטי</li>
-  <li>חוויה שאינה חלק מלוח משחקים רגיל</li>
+  <li>משחק ייעודי בפורמט מיוחד</li>
+  <li>נוכחות צוות מקצועי</li>
+  <li>ליווי לוגיסטי</li>
 </ul>
 
-<h2>כיצד פועל מנגנון הבחירה?</h2>
+<h2>כיצד פועלת הבחירה?</h2>
 <p>
-מערכת הבחירה פועלת באופן אוטומטי ומבוססת נתונים.
-הבחירה אינה אקראית ואינה מבוססת הרשמה פתוחה.
+הבחירה מתבצעת על בסיס נתונים ואינה פתוחה להרשמה ציבורית.
 </p>
-
-<h2>מדוע קיבלת את ההזמנה?</h2>
-<p>
-הפרופיל שלך נמצא תואם לקריטריונים של אחד האירועים הקרובים.
-</p>
-
-<h2>שלבים לאחר אישור השתתפות</h2>
-<p>
-לאחר האישור יישלחו פרטים משלימים הכוללים מיקום, שעות והנחיות כלליות.
-</p>
-
-<h3>הבהרות חשובות</h3>
-<ul>
-  <li>מספר המקומות מוגבל</li>
-  <li>האירוע מיועד למוזמנים בלבד</li>
-  <li>אין להעביר את ההזמנה לצד שלישי</li>
-  <li>ייתכנו שינויים ארגוניים</li>
-</ul>
-
-<p>
-אנו ממליצים לקרוא מידע זה בעיון לפני קבלת החלטה.
-</p>
-
 </div>
 
-<div class="footer">© 2026 Netanya Football Organization</div>
+<div class="footer" id="footerText">
+© 2026 ארגון הכדורגל נתניה · כל הזכויות שמורות
+</div>
 
 <script>
-/* ===== SAFE BACK ===== */
 function goBack(){
   window.location.href = "./index.html";
 }
 
-/* ===== TRANSLATIONS ===== */
+const footerTexts = {
+  he:"© 2026 ארגון הכדורגל נתניה · כל הזכויות שמורות",
+  en:"© 2026 Netanya Football Organization · All rights reserved",
+  fr:"© 2026 Organisation de football de Netanya · Tous droits réservés",
+  ar:"© 2026 منظمة كرة القدم نتانيا · جميع الحقوق محفوظة"
+};
+
 const translations = {
 en: `
 <a class="back" onclick="goBack()"><span>←</span> Back to invitation</a>
 <h1>Special Invitation Program – Full Information</h1>
-<p>Netanya Football operates a selective invitation initiative throughout the year.</p>
-<h2>Program background</h2>
-<p>The initiative strengthens community and professional connections.</p>
+<p>Netanya Football operates a selective invitation program throughout the year.</p>
 <h2>What does the event include?</h2>
 <ul>
-<li>Dedicated match format</li>
+<li>Dedicated football match</li>
 <li>Professional staff presence</li>
 <li>Logistical coordination</li>
 </ul>
-<h2>Selection mechanism</h2>
-<p>Automatic data-based selection. Not open registration.</p>
-<h2>Why you were selected</h2>
-<p>Your profile matched the event criteria.</p>
-<h2>After confirmation</h2>
-<p>Additional details will be sent closer to the date.</p>
+<h2>Selection process</h2>
+<p>Selection is data-based and not open registration.</p>
 `,
 fr: `
 <a class="back" onclick="goBack()"><span>←</span> Retour à l'invitation</a>
 <h1>Programme d'invitation spéciale – Informations complètes</h1>
-<p>Netanya Football organise une initiative sélective.</p>
-<h2>Contexte</h2>
-<p>Renforcer le lien communautaire et professionnel.</p>
+<p>Netanya Football organise un programme d'invitation sélectif.</p>
 <h2>Contenu de l'événement</h2>
 <ul>
 <li>Match dédié</li>
 <li>Équipe professionnelle</li>
+<li>Coordination logistique</li>
 </ul>
 <h2>Sélection</h2>
 <p>Sélection automatique basée sur les données.</p>
@@ -197,30 +162,40 @@ fr: `
 ar: `
 <a class="back" onclick="goBack()"><span>←</span> العودة إلى الدعوة</a>
 <h1>برنامج الدعوة الخاصة – معلومات كاملة</h1>
-<p>تنظم كرة قدم نتانيا مبادرة انتقائية.</p>
-<h2>الخلفية</h2>
-<p>تعزيز الروابط المجتمعية والمهنية.</p>
+<p>تنظم كرة قدم نتانيا برنامج دعوة انتقائي.</p>
 <h2>محتوى الحدث</h2>
 <ul>
 <li>مباراة مخصصة</li>
 <li>طاقم محترف</li>
+<li>تنسيق لوجستي</li>
 </ul>
 <h2>آلية الاختيار</h2>
-<p>اختيار تلقائي قائم على البيانات.</p>
+<p>اختيار قائم على البيانات وليس تسجيلًا مفتوحًا.</p>
 `
 };
 
+function applyLang(lang){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = (lang==="he" || lang==="ar") ? "rtl" : "ltr";
+  document.getElementById("langSelect").value = lang;
+  footerText.innerText = footerTexts[lang];
+  if(lang !== "he"){
+    content.innerHTML = translations[lang];
+  }
+}
+
 function changeLang(lang){
+  localStorage.setItem("siteLang", lang);
   if(lang === "he"){
-    document.documentElement.lang = "he";
-    document.documentElement.dir = "rtl";
     location.reload();
     return;
   }
+  applyLang(lang);
+}
 
-  document.documentElement.lang = lang;
-  document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
-  document.getElementById("content").innerHTML = translations[lang];
+const savedLang = localStorage.getItem("siteLang");
+if(savedLang && savedLang !== "he"){
+  applyLang(savedLang);
 }
 </script>
 
