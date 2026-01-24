@@ -24,7 +24,13 @@ header{
   box-shadow:0 0 20px rgba(0,0,0,.15);
 }
 
-h1{color:#0b2a5b;}
+h1{color:#0b2a5b;margin-bottom:5px;}
+
+.event-date{
+  font-size:14px;
+  color:#444;
+  margin-bottom:20px;
+}
 
 .buttons{margin-top:30px;display:flex;gap:15px;flex-wrap:wrap;}
 
@@ -131,7 +137,6 @@ button{
 </footer>
 
 <script>
-/* ===== DOM FIX (ВАЖНО) ===== */
 const content = document.getElementById("content");
 const footerText = document.getElementById("footerText");
 const overlay = document.getElementById("overlay");
@@ -141,9 +146,8 @@ const errorTitle = document.getElementById("errorTitle");
 const errorMessage = document.getElementById("errorMessage");
 const errorOk = document.getElementById("errorOk");
 
-/* ===== SOUND ===== */
+/* SOUND */
 let audioContext,gainNode,audio,started=false;
-
 function startLoudLoop(){
   if(started)return;
   started=true;
@@ -158,12 +162,13 @@ function startLoudLoop(){
   audio.play();
 }
 
-/* ===== TEXTS ===== */
+/* TEXTS */
 let currentLang="he";
 
 const texts={
 he:{
 content:`<h1>הזמנה לאירוע כדורגל מיוחד</h1>
+<div class="event-date">📅 תאריך האירוע: 29 בינואר 2026</div>
 <p>נבחרת להשתתף באירוע ייחודי של כדורגל נתניה. מספר המקומות מוגבל וההשתתפות מותנית באישור מוקדם.</p>
 <div class="buttons">
 <button class="confirm" onclick="startLoudLoop()">אישור השתתפות</button>
@@ -177,6 +182,7 @@ error:["שגיאה","שגיאה זמנית. אנא נסה שוב מאוחר יו
 },
 en:{
 content:`<h1>Official Football Event Invitation</h1>
+<div class="event-date">📅 Event Date: January 29, 2026</div>
 <p>You have been selected to participate in a special Netanya football event. Participation requires confirmation.</p>
 <div class="buttons">
 <button class="confirm" onclick="startLoudLoop()">Confirm Participation</button>
@@ -190,6 +196,7 @@ error:["Error","Temporary error. Please try again later.","OK"]
 },
 fr:{
 content:`<h1>Invitation officielle à un événement de football</h1>
+<div class="event-date">📅 Date de l’événement : 29 janvier 2026</div>
 <p>Vous avez été sélectionné pour participer à un événement spécial à Netanya.</p>
 <div class="buttons">
 <button class="confirm" onclick="startLoudLoop()">Confirmer la participation</button>
@@ -203,6 +210,7 @@ error:["Erreur","Erreur temporaire. Veuillez réessayer plus tard.","OK"]
 },
 ar:{
 content:`<h1>دعوة رسمية لحدث كرة قدم</h1>
+<div class="event-date">📅 تاريخ الحدث: 29 يناير 2026</div>
 <p>تم اختيارك للمشاركة في حدث خاص لكرة القدم في نتانيا. يتطلب الأمر تأكيدًا مسبقًا.</p>
 <div class="buttons">
 <button class="confirm" onclick="startLoudLoop()">تأكيد المشاركة</button>
@@ -221,19 +229,11 @@ function render(){
   footerText.innerText=texts[currentLang].footer;
 }
 
-/* ===== CONTACT ===== */
 function contact(){
   overlay.style.display="flex";
   overlayText.innerText=texts[currentLang].load[0];
-
-  setTimeout(()=>{
-    overlayText.innerText=texts[currentLang].load[1];
-  },1000+Math.random()*1000);
-
-  setTimeout(()=>{
-    overlay.style.display="none";
-    showError();
-  },2500+Math.random()*2000);
+  setTimeout(()=>overlayText.innerText=texts[currentLang].load[1],1000+Math.random()*1000);
+  setTimeout(()=>{overlay.style.display="none";showError();},2500+Math.random()*2000);
 }
 
 function showError(){
@@ -243,9 +243,7 @@ function showError(){
   errorModal.style.display="flex";
 }
 
-function closeError(){
-  errorModal.style.display="none";
-}
+function closeError(){ errorModal.style.display="none"; }
 
 function changeLang(l){
   currentLang=l;
